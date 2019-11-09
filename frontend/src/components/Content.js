@@ -12,6 +12,7 @@ import Instructions from './Instructions';
 */
 class Content extends Component {
   renderContent = () => {
+    // console.log(this.props)
     if (false) {
       return <NoteEditor />;
     } else if (false) {
