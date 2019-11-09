@@ -9,7 +9,7 @@ class NoteContainer extends Component {
   state = {
     notes: [],
     term: '',
-    oneNote: 0,
+    selectedNote: {},
     edit:false
   }
 
@@ -47,9 +47,36 @@ class NoteContainer extends Component {
       })
     }
 
+    SaveEditNote = (editNote) => {
+      const note = {
+        
+        title: editNote.title,
+        body: editNote.body,
+        user: {
+          id: 1,
+          name: "razashareef"
+        }
+        }
+        fetch(`${notes}/${note.id}`, {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+          },
+          body: JSON.stringify(note)
+        })
+        }
+      
+    handleEdit = () => {
+      this.setState(state => ({
+        edit: !state.edit
+      }))
+    }
+      
+
   detail = (id) => {
     this.setState({
-      oneNote: this.state.notes.find(note => note.id === id),
+      selectedNote: this.state.notes.find(note => note.id === id),
       edit: false
     })
   }
@@ -58,7 +85,8 @@ class NoteContainer extends Component {
     // const notes = this.props.notes
     // const title = 'hey'
     // console.log(this.state)
-    const filteredNotes = this.state.notes.filter(note => note.title.includes(this.state.term))
+    const filteredNotes = this.state.notes.filter(note => note.title.toLowerCase().includes(this.state.term.toLowerCase()))
+    console.log(this.state.selectedNote)
     return (
       <Fragment>
         <Search handleSearch={this.handleSearch} />
@@ -67,7 +95,10 @@ class NoteContainer extends Component {
           detail={this.detail}
           newNote = {this.newNote} 
           />
-          <Content note={this.state.oneNote} />
+          <Content note={this.state.selectedNote} 
+          saved_edit = {this.SaveEditNote}
+          edit={this.state.edit}
+          handleEdit={this.state.handleEdit}/>
         </div>
       </Fragment>
     );
