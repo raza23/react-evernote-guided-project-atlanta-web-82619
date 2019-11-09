@@ -3,9 +3,11 @@ import NoteList from './NoteList';
 
 class Sidebar extends Component {
   render() {
+    // console.log(this.props)
+    // const notes=this.props 
     return (
       <div className='master-detail-element sidebar'>
-        <NoteList />
+        <NoteList notes={this.props.notes} />
         <button>New</button>
       </div>
     );

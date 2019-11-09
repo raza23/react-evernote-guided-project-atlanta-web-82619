@@ -12,3 +12,5 @@ Note.destroy_all
 10.times do
   Note.create(user: u, title: Faker::Lorem.sentence(rand(4) + 1, true), body: Faker::Lorem.paragraphs(3, true).join('\n'))
 end
+
+# Note.create(user: 'Bobby', title: 'Test Test Tes', body: 'Test Test Test')
