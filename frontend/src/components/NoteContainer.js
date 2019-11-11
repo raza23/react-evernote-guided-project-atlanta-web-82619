@@ -29,10 +29,7 @@ class NoteContainer extends Component {
       
       title: 'title',
       body: 'body',
-      user: {
-        id: 1,
-        name: "razashareef"
-      }
+      user_id: 1
       }
       fetch(notes, {
         method: 'POST',
@@ -47,25 +44,52 @@ class NoteContainer extends Component {
       })
     }
 
-    SaveEditNote = (editNote) => {
+    SaveEditNote = (editNoteID,editNotetitle,editNotebody,editorID) => {
+      // debugger
       const note = {
         
-        title: editNote.title,
-        body: editNote.body,
-        user: {
-          id: 1,
-          name: "razashareef"
+        
+        title: editNotetitle,
+        body: editNotebody,
+       
+        user: editorID
+        
         }
-        }
-        fetch(`${notes}/${note.id}`, {
+        fetch(`http://localhost:3001/api/v1/notes/${editNoteID}`, {
+          
           method: 'PATCH',
           headers: {
+            
             'Content-Type': 'application/json',
             'Accept': 'application/json'
           },
+          
           body: JSON.stringify(note)
+        }).then(console.log('editted'))
+        }
+        
+
+    //* Deletes a note, AND updates state.
+  DeleteNote = () => {
+    fetch(`http://localhost:3001/api/v1/notes/${this.state.selectedNote.id}`, {
+       method: 'DELETE',
+    })
+      .then(res => res.json())
+      .then(() => {
+        alert('Note Deleted')
+
+        this.setState({
+          notes: this.state.notes.filter(note => note !== this.state.selectedNote),
+          selectedNote: 'DELETED'
+        })
         })
         }
+          
+          
+      
+     
+
+        
       
     handleEdit = () => {
       this.setState(state => ({
@@ -77,6 +101,7 @@ class NoteContainer extends Component {
   detail = (id) => {
     this.setState({
       selectedNote: this.state.notes.find(note => note.id === id),
+      // selectedNote: note,
       edit: false
     })
   }
@@ -94,11 +119,13 @@ class NoteContainer extends Component {
           <Sidebar notes={filteredNotes} 
           detail={this.detail}
           newNote = {this.newNote} 
+          deleteNote= {this.DeleteNote}
           />
           <Content note={this.state.selectedNote} 
-          saved_edit = {this.SaveEditNote}
+          SaveEdit = {this.SaveEditNote}
           edit={this.state.edit}
-          handleEdit={this.state.handleEdit}/>
+          handleEdit={this.handleEdit}
+          deleteNote = {this.DeleteNote}/>
         </div>
       </Fragment>
     );

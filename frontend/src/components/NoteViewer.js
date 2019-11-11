@@ -7,6 +7,7 @@ const NoteViewer = (props) => {
       <h2>{props.note.title}</h2>
       <p>{props.note.body}</p>
       <button onClick={props.handleEdit}>Edit</button>
+      <button type="button" onClick={props.deleteNote}>Delete</button>
     </Fragment>
   );
 }

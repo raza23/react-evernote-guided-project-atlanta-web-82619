@@ -17,12 +17,15 @@ class Content extends Component {
       return <NoteEditor
       note={this.props.note} 
       handleEdit = {this.props.handleEdit}
-      saved_edit = {this.props.saved_edit} />;
+      SaveEdit = {this.props.SaveEdit} 
+      deleteNote={this.props.deleteNote}
+      />;
     } else if (this.props.note) {
       return <NoteViewer 
       note={this.props.note}
       handleEdit = {this.props.handleEdit}
-      saved_edit = {this.props.saved_edit}
+      SaveEdit = {this.props.SaveEdit}
+      deleteNote={this.props.deleteNote}
       />;
     } else {
       return <Instructions />;
