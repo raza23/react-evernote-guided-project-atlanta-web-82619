@@ -1,43 +1,35 @@
 import React, { Component } from 'react';
 import Header from './Header';
 import NoteContainer from './NoteContainer';
+import CreateForm from './CreateForm'
+import NavBar from './NavBar'
+import {BrowserRouter, Route,Switch} from "react-router-dom"
 // import Toggle from './Toggle'
 
 class App extends Component {
-  // state = {
-  //   textDisplay: 'Title'
-  // }
-
-  // //* 
-  // filterToggle = () => {
-  //   let search = this.state.textDisplay
-  //   // console.log('hey')
-  //   // debugger
-  //   if (search === 'Title') {
-  //     search = 'Body' }
-
-  //     else (search = 'Title')
-  //   this.setState({
-  //     textDisplay: search
-  //   })
-  // } 
-
-  // filterToggle = () => {
-  // this.state.textDisplay === 'Title' ? 
-  // this.setState({textDisplay: 'Body'}) : 
-  // this.setState({textDisplay: 'Title'}) }
+ 
   
 
   render() {
 
-    // debugger
+   
 
     return (
+      
+      <BrowserRouter>
       <div className="app">
         <Header />
-        {/* <Toggle filterToggle={this.filterToggle} text={this.state.textDisplay} /> */}
-        <NoteContainer  />
+        <NavBar />
+        <Switch >
+
+        <Route path="/" component = {NoteContainer} exact />
+        <Route path="/create" component = {CreateForm} exact />
+
+        
+        
+        </Switch>
       </div>
+        </BrowserRouter>
     );
   }
 }

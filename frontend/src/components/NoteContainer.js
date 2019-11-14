@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 import Search from './Search';
 import Sidebar from './Sidebar';
 import Content from './Content';
-import CreateForm from './CreateForm';
+// import CreateForm from './CreateForm';
 import Toggle from './Toggle'
 const notes = 'http://localhost:3001/api/v1/notes'
 
@@ -48,26 +48,26 @@ class NoteContainer extends Component {
 
 
   // * creates a new note and fetches that note and persists it to the backend
-  newNote = (newNote) => {
+  // newNote = (newNote) => {
     
-    const note = {
+  //   const note = {
       
-      title: newNote.title,
-      body: newNote.body,
-      user_id: 1
-      }
-      fetch(notes, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
-        },
-        body: JSON.stringify(note)
-      }).then(res => res.json())
-      .then(newNote => {
-        this.setState({notes: [newNote,...this.state.notes]})
-      })
-    }
+  //     title: newNote.title,
+  //     body: newNote.body,
+  //     user_id: 1
+  //     }
+  //     fetch(notes, {
+  //       method: 'POST',
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //         'Accept': 'application/json'
+  //       },
+  //       body: JSON.stringify(note)
+  //     }).then(res => res.json())
+  //     .then(newNote => {
+  //       this.setState({notes: [newNote,...this.state.notes]})
+  //     })
+  //   }
 
     //* Patch request. Allows for the specific note to be ediited
     SaveEditNote = (editNoteID,editNotetitle,editNotebody,editorID) => {
@@ -156,7 +156,7 @@ class NoteContainer extends Component {
         <Toggle filterToggle={this.filterToggle} text={this.state.search} />
         <Search searchby={this.state.search} handleSearch={this.handleSearch} />
         <div className='container'>
-          <CreateForm newNote={this.newNote} />
+          {/* <CreateForm newNote={this.newNote} /> */}
           <Sidebar notes={this.filteredNotes()} 
           detail={this.detail}
           // newNote = {this.newNote} 

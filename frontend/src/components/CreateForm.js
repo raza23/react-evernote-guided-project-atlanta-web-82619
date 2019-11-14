@@ -1,4 +1,5 @@
 import React from 'react'
+const notes = 'http://localhost:3001/api/v1/notes'
 
 
 class CreateForm extends React.Component {
@@ -8,14 +9,44 @@ class CreateForm extends React.Component {
     this.state = {
       title: '',
       body: '',
+      notes: []
       }
       this.baseState = this.state
   }
 
+  componentDidMount(){
+    fetch(notes)
+    .then(res => res.json())
+    .then(notes_fetch => 
+      this.setState({notes: notes_fetch}))
+    }
+
+  newNote = (newNote) => {
+    
+    const note = {
+      
+      title: newNote.title,
+      body: newNote.body,
+      user_id: 1
+      }
+      fetch(notes, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify(note)
+      }).then(res => res.json())
+      .then(newNote => {
+        this.setState({notes: [...this.state.notes,newNote]})
+      })
+    }
+
   handleClick = (e) => {
     e.preventDefault()
-    this.props.newNote(this.state)
+    this.newNote(this.state)
     this.resetForm()
+    this.props.history.push('/')
   }
 
 
