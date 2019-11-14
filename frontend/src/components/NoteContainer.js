@@ -3,6 +3,7 @@ import Search from './Search';
 import Sidebar from './Sidebar';
 import Content from './Content';
 import CreateForm from './CreateForm';
+import Toggle from './Toggle'
 const notes = 'http://localhost:3001/api/v1/notes'
 
 class NoteContainer extends Component {
@@ -12,7 +13,7 @@ class NoteContainer extends Component {
     term: '',
     selectedNote: {},
     edit:false,
-    search: this.props.text
+    search: 'Title'
   }
 
 
@@ -30,6 +31,20 @@ class NoteContainer extends Component {
     this.setState({term: e.target.value})
     console.log(this.state.term)
   }
+
+  filterToggle = () => {
+    let search = this.state.search
+  
+    // console.log('hey')
+    // debugger
+    if (search === 'Title') {
+      search = 'Body' }
+
+      else (search = 'Title')
+    this.setState({
+      search: search
+    })
+  } 
 
 
   // * creates a new note and fetches that note and persists it to the backend
@@ -101,7 +116,7 @@ class NoteContainer extends Component {
         let noteCopy = [...this.state.notes]
         if (this.state.search === 'Title') {
           noteCopy = noteCopy.filter(note => note.title.toLowerCase().includes(this.state.term.toLowerCase())) 
-        } else if (this.state.search === 'Body') {
+        } else   {
           noteCopy = noteCopy.filter(note => note.body.toLowerCase().includes(this.state.term.toLowerCase())) 
         // debugger
       }
@@ -138,6 +153,7 @@ class NoteContainer extends Component {
     console.log(this.state.search)
     return (
       <Fragment>
+        <Toggle filterToggle={this.filterToggle} text={this.state.search} />
         <Search searchby={this.state.search} handleSearch={this.handleSearch} />
         <div className='container'>
           <CreateForm newNote={this.newNote} />
