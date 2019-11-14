@@ -10,7 +10,7 @@ class Sidebar extends Component {
         <NoteList notes={this.props.notes} 
         
         detail={this.props.detail} />
-        <button onClick={this.props.newNote}>New</button>
+        {/* <button onClick={this.props.newNote}>New</button> */}
       </div>
     );
   }

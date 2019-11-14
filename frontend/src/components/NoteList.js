@@ -2,7 +2,7 @@ import React from 'react';
 import NoteItem from './NoteItem';
 
 const NoteList = (props) => {
-  console.log(props)
+  // console.log(props)
   const notes = props.notes.map(note => (
      <NoteItem key={note.id} handleClick={props.detail} {...note} />
   ))

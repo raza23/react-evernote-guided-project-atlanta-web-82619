@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react';
 import Search from './Search';
 import Sidebar from './Sidebar';
 import Content from './Content';
+import CreateForm from './CreateForm';
 const notes = 'http://localhost:3001/api/v1/notes'
 
 class NoteContainer extends Component {
@@ -10,9 +11,12 @@ class NoteContainer extends Component {
     notes: [],
     term: '',
     selectedNote: {},
-    edit:false
+    edit:false,
+    search: this.props.text
   }
 
+
+  //* Fetches the data and alters the state to include all notes
   componentDidMount(){
     fetch(notes)
     .then(res => res.json())
@@ -20,15 +24,21 @@ class NoteContainer extends Component {
       this.setState({notes: notes_fetch}))
     }
 
+
+    //* Get the search term from the search bar and allows for the filter to happen
   handleSearch = (e) => {
     this.setState({term: e.target.value})
+    console.log(this.state.term)
   }
 
+
+  // * creates a new note and fetches that note and persists it to the backend
   newNote = (newNote) => {
+    
     const note = {
       
-      title: 'title',
-      body: 'body',
+      title: newNote.title,
+      body: newNote.body,
       user_id: 1
       }
       fetch(notes, {
@@ -40,10 +50,11 @@ class NoteContainer extends Component {
         body: JSON.stringify(note)
       }).then(res => res.json())
       .then(newNote => {
-        this.setState({notes: [...this.state.notes,newNote]})
+        this.setState({notes: [newNote,...this.state.notes]})
       })
     }
 
+    //* Patch request. Allows for the specific note to be ediited
     SaveEditNote = (editNoteID,editNotetitle,editNotebody,editorID) => {
       // debugger
       const note = {
@@ -85,8 +96,17 @@ class NoteContainer extends Component {
         })
         }
           
-          
-      
+          //* based of the toggle allows the notes to be filteres between title/body
+      filteredNotes = () => {
+        let noteCopy = [...this.state.notes]
+        if (this.state.search === 'Title') {
+          noteCopy = noteCopy.filter(note => note.title.toLowerCase().includes(this.state.term.toLowerCase())) 
+        } else if (this.state.search === 'Body') {
+          noteCopy = noteCopy.filter(note => note.body.toLowerCase().includes(this.state.term.toLowerCase())) 
+        // debugger
+      }
+    return noteCopy
+  }
      
 
         
@@ -110,22 +130,29 @@ class NoteContainer extends Component {
     // const notes = this.props.notes
     // const title = 'hey'
     // console.log(this.state)
-    const filteredNotes = this.state.notes.filter(note => note.title.toLowerCase().includes(this.state.term.toLowerCase()))
-    console.log(this.state.selectedNote)
+    
+    // const filteredNotes = this.state.notes.filter(note => note.title.toLowerCase().includes(this.state.term.toLowerCase())) 
+    // const filteredNotes = this.state.notes.filter(note => note.body.toLowerCase().includes(this.state.term.toLowerCase()))
+    // this.state.
+
+    console.log(this.state.search)
     return (
       <Fragment>
-        <Search handleSearch={this.handleSearch} />
+        <Search searchby={this.state.search} handleSearch={this.handleSearch} />
         <div className='container'>
-          <Sidebar notes={filteredNotes} 
+          <CreateForm newNote={this.newNote} />
+          <Sidebar notes={this.filteredNotes()} 
           detail={this.detail}
-          newNote = {this.newNote} 
-          deleteNote= {this.DeleteNote}
+          // newNote = {this.newNote} 
+          // deleteNote= {this.DeleteNote}
           />
           <Content note={this.state.selectedNote} 
+          // newNote = {this.newNote}
           SaveEdit = {this.SaveEditNote}
           edit={this.state.edit}
           handleEdit={this.handleEdit}
-          deleteNote = {this.DeleteNote}/>
+          deleteNote = {this.DeleteNote}
+          newNote={this.newNote}/>
         </div>
       </Fragment>
     );

@@ -4,7 +4,7 @@ class NoteEditor extends Component {
 
   state = {
     title: this.props.note.title,
-    body: this.props.note.body
+    body:  this.props.note.body
 
   }
 
@@ -30,6 +30,7 @@ class NoteEditor extends Component {
           <input className="button" type="submit" value="Save" onClick={() => this.props.SaveEdit(this.props.note.id,this.state.title,this.state.body,this.props.note.user.id)} />
           <button type="button" onClick={this.props.handleEdit}>Cancel</button>
           <button type="button" onClick={this.props.deleteNote}>Delete</button>
+          {/* <button type="button" onClick={this.props.newNote}>New Note</button> */}
         </div>
       </form>
     );
